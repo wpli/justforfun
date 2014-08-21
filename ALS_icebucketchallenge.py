@@ -1,7 +1,9 @@
 
 # coding: utf-8
 
-## An IPython Notebook Analysis of the Internet Virality of the ALS Ice Bucket Challenge
+## How many people have done the #ALS #IceBucketChallenge?
+
+#### An [IPython Notebook](http://ipython.org/notebook.html) Analysis of the Viral Internet
 
 # by [William Li](https://twitter.com/williampli) 
 
@@ -20,6 +22,8 @@
 # * there was one person who started it all
 # * each person who participates challenges three people
 # * of the three people who are challenged, two of them accept the challenge
+# 
+# My main simulation suggests that 3.9 million people have done the ALS Ice Bucket Challenge.
 
 # In[78]:
 
@@ -101,25 +105,33 @@ for iteration in range( num_iterations ):
 # 
 # I've summarized and plotted the results below. The average number of participants in these simulations is 3.9 million. This might be a realistic number, in light of the fact that the ALS Association recently announced that [it has raised $22.9 million](http://www.alsa.org/news/media/press-releases/ice-bucket-challenge-081914.html), this might be a realistic estimate.
 
-# In[127]:
+# The estimated average number of participants is quite high: 22.5 million. The variance has reduced, since there are far fewer cases where no one after day 1 does the challenge. 
+# 
+# The results from this model are summarized below. The histogram is more normally distributed (Gaussian), since there are fewer very-low events). Overall, the average estimate in this case, though, is arguably too high; I leave the tweaking of parameters and better models to future work (please [fork the code](https://github.com/wpli/justforfun) if you're interested!)
+
+# In[131]:
 
 import numpy
-print "Average Number of Participants: %s" % int( numpy.round( numpy.mean( one_starter_total_participants_per_iteration ) ) )
-print "Standard Deviation: %s" % int( numpy.round( numpy.std( one_starter_total_participants_per_iteration ) ) )
-print "Maximum: %s" % int( numpy.round( numpy.min( one_starter_total_participants_per_iteration ) ) )
-print "Minimum: %s" % int( numpy.round( numpy.max( one_starter_total_participants_per_iteration ) ) )
+print "Average Number of Participants: %s" % int( numpy.round( numpy.mean( multiple_starters_total_participants_per_iteration ) ) )
+print "Standard Deviation of Number of Participants: %s" % int( numpy.round( numpy.std( multiple_starters_total_participants_per_iteration ) ) )
+print "Minimum: %s" % int( numpy.round( numpy.min( multiple_starters_total_participants_per_iteration ) ) )
+print "Maximum: %s" % int( numpy.round( numpy.max( multiple_starters_total_participants_per_iteration ) ) )
 
-hist( total_participants_per_iteration )
+hist( multiple_starters_total_participants_per_iteration )
 title( "Histogram of Simulated Number of Participants" )
 xlabel( "Number of Participants" )
 ylabel( "Count (out of %s simulations)" % num_iterations ) 
 
 
-### Model #3: More than One Starter (A Tiny Refinement)
+### Future Work
 
-# Having one starter results in a substantial chance (25%, in our case) that only one person will do the challenge --- the viral dynamics of the Internet won't take off. It seems like the ALS Ice Bucket Challenge had, at various stages, multiple people join without being challenged (maybe they self-nominated). One approximation is that we assume that five people, not one person, started the challenge, and use the same approach as above:
+# This model could be extended in many ways. It'd be interesting to study actual data associated with the Ice Bucket Challenge (e.g. on Twitter and Facebook) and see how many people actually learned about ALS. The actual impact of the challenge on donations in support of people with ALS would also be worthwhile research. 
+# 
+# A final, personal plug: This fall, I'm co-teaching a course at MIT called [6.811: Principles and Practice of Assistive Technology](http://courses.csail.mit.edu/PPAT). Small teams of students work with people with disabilities over an entire semester and develop customized devices and solutions that help them live more independently. In previous years, we have worked with people with ALS in the Boston area, including the aforementioned Steve Saling. Please visit the [course website](http://courses.csail.mit.edu/PPAT), join our "friends" mailing list, or get in touch with me ([@williampli](http://www.twitter.com/williampli) or [wli@csail.mit.edu](mailto:wli@csail.mit.edu)) to learn more. 
 
-# In[ ]:
+### Extension: Model #3 More than One Starter (A Tiny Refinement)
+
+# In[128]:
 
 import random
 
@@ -151,31 +163,18 @@ for iteration in range( num_iterations ):
         
 
 
-# The estimated average number of participants is quite high: . The variance has reduced, since there are far fewer cases where no one after day 1 does the challenge. 
-# 
-# The results from this model are summarized below. The histogram is more normally distributed (Gaussian), since there are fewer very-low events). Overall, the average estimates in this case is arguably high; I leave the tweaking of parameters and better models to future work (please [fork the code](https://github.com/wpli/justforfun) if you're interested!)
+# Having one starter results in a substantial chance (25%, in our case) that only one person will do the challenge --- the viral dynamics of the Internet won't take off. It seems like the ALS Ice Bucket Challenge had, at various stages, multiple people join without being challenged (maybe they self-nominated). One approximation is that we assume that five people, not one person, started the challenge, and use the same approach as above:
 
-# In[ ]:
+# In[132]:
 
 import numpy
-print "Average Number of Participants: %s" % int( numpy.round( numpy.mean( multiple_starters_total_participants_per_iteration ) ) )
-print "Standard Deviation of Number of Participants: %s" % int( numpy.round( numpy.std( multiple_starters_total_participants_per_iteration ) ) )
-print "Maximum: %s" % int( numpy.round( numpy.min( multiple_starters_total_participants_per_iteration ) ) )
-print "Minimum: %s" % int( numpy.round( numpy.max( multiple_starters_total_participants_per_iteration ) ) )
+print "Average Number of Participants: %s" % int( numpy.round( numpy.mean( one_starter_total_participants_per_iteration ) ) )
+print "Standard Deviation: %s" % int( numpy.round( numpy.std( one_starter_total_participants_per_iteration ) ) )
+print "Maximum: %s" % int( numpy.round( numpy.min( one_starter_total_participants_per_iteration ) ) )
+print "Minimum: %s" % int( numpy.round( numpy.max( one_starter_total_participants_per_iteration ) ) )
 
-hist( multiple_starters_total_participants_per_iteration )
+hist( total_participants_per_iteration )
 title( "Histogram of Simulated Number of Participants" )
 xlabel( "Number of Participants" )
 ylabel( "Count (out of %s simulations)" % num_iterations ) 
-
-
-### Future Work
-
-# This model could be extended in many ways. It'd be interesting to study actual data associated with the Ice Bucket Challenge (e.g. on Twitter and Facebook) and see how many people actually learned about ALS. The actual impact of the challenge on donations in support of people with ALS would also be worthwhile research. 
-# 
-# A final, personal plug: This fall, I'm co-teaching a course at MIT called [6.811: Principles and Practice of Assistive Technology](http://courses.csail.mit.edu/PPAT). Small teams of students work with people with disabilities over an entire semester and develop customized devices and solutions that help them live more independently. In previous years, we have worked with people with ALS in the Boston area, including the aforementioned Steve Saling. Please visit the [course website](http://courses.csail.mit.edu/PPAT), join our "friends" mailing list, or get in touch with me ([@williampli](http://www.twitter.com/williampli) or [wli@csail.mit.edu](mailto:wli@csail.mit.edu)) to learn more. 
-
-# In[ ]:
-
-
 
